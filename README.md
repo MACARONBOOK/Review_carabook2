@@ -24,12 +24,14 @@ Things you may want to cover:
 * ...
 # Review_carabook
 * first commit → add star-Review to format
-* second commit → add & update README
+* second/fourth/fifth/seventh commit → add & update README
 * third commit → add change-order
+* sixth commit → add Category & recover view-layout && search_function
 
 ## star-Review_function
 * add jQuery<br>
   yarn add jquery
+  
 * + config/wepack/environment.js<br>
   const webpack = require('webpack')<br>
   environment.plugins.prepend(<br>
@@ -39,14 +41,18 @@ Things you may want to cover:
     jQuery: 'jquery/src/jquery',<br>
     jquery: 'jquery/src/jquery',<br>
   })
+  
 * + javascript/packs/application.js<br>
     change→ import jQuery from "jquery"<br>
     new→ global.$ = jQuery;<br>
          window.$ = window.jQuery = require('jquery');<br>
          require('packs/raty')
+         
 * add Raty.js
+
 * + download star-image & put on assets/images<br>
   https://github.com/wbotelhos/raty/tree/master/lib/images
+  
 * + create raty.js at app/javascript/packs & copy-paste<br>
   https://github.com/wbotelhos/raty/blob/master/lib/jquery.raty.js
   
@@ -55,9 +61,10 @@ Things you may want to cover:
   →migrate
 
 * permit new-column by BookCon<br>
-  params.require.........permit(:star)
+  permit→ :star
 
 * add description to views
+
 * + books/form<br>
   -- bottom of form --  
 
@@ -108,3 +115,51 @@ Things you may want to cover:
     formats:<br>
       default: "%Y/%m/%d %H:%M:%S"
 
+## Tag(Category)_function
+
+* create model<br>
+  rails g model category name:string
+  
+* add column on books<br>
+  rails g migration AddCategoryToBook category:string category_id:integer
+
+* associate 2model<br>
+  (book.rb)<br>
+  has_many :categories, dependent: :destroy<br>
+   ※if 1:1, belongs_to :catergory<br>
+   
+  (category.rb)<br>
+  belongs_to :book<br>
+   ※if 1:1, has_one :book
+   
+* add index-action & permit new-column by BookCon<br>
+  index→ @category = @book.category_id<br>
+  permit→ :category
+  
+* add routing<br>
+  resources :categories(between resources:books...do ~ end)
+ 
+* add category on form(books/form & books/edit)
+* + books/form<br>
+  -- above star-Review --
+* + books/edit<br>
+  -- above star-Review --
+
+* add category(link) on view(books/show & books/index)
+* + books/show<br>
+  -- above like-it --
+* + books/index<br>
+  -- above like-it --
+  
+※recover div/td-tag(input of end)
+
+## search_function(+category)
+
+* add choices on book.rb <br>
+   elsif method == 'cate-perfect'<br>
+      Book.where(category: content)  ← (above 'forward', between def self.search_for ... end)
+      
+* add choices on searches/form<br>
+   "カテゴリー" => "cate-perfect"
+   
+* change render per-index to per-search(partial)
