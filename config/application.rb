@@ -16,7 +16,8 @@ module Bookers2
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = 'Asia/Tokyo'    # タイムゾーンの再設定
+    config.i18n.default_locale = :ja   # ja.yml(日本時間表示の設定)に連動
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
