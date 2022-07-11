@@ -73,3 +73,38 @@ Things you may want to cover:
   →ReadOnly:~ , score:~<br>
   
 ## change_order_function(latest/old/star_count)
+* write on book.rb<br>
+  scope :latest, -> {order(created_at: :desc)}<br>
+  scope :old, -> {order(created_at: :asc)}<br>
+  scope :star_count, -> {order(star: :desc)}
+  
+* edit index-action on BookCon<br>
+  if params[:latest]<br>
+     @books = Book.latest<br>
+  elsif params[:old]<br>
+     @books = Book.old<br>
+  elsif params[:star_count]<br>
+    @books = Book.star_count<br>
+  else<br>
+    @books = Book.all<br>
+  end
+
+* add link to books/index ※remove<><br>
+  p<br>
+   %= link_to '新しい順', books_path(latest: "true") %<br>
+  | %= link_to '古い順', books_path(old: "true") %<br>
+  | %= link_to '評価の高い順', books_path(star_count: "true") %<br>
+  /p
+* change time-zone & add default at config/application.rb<br>
+  config.time_zone = 'Asia/Tokyo'<br>
+  config.i18n.default_locale = :ja
+
+* add created-date-time on books/index ※remove<><br>
+   td  %= l book.created_at %  /td       ← 1 method can display jpn-time
+   
+* create config/locales/ja.yml<br>
+  ja:<br>
+  time:<br>
+    formats:<br>
+      default: "%Y/%m/%d %H:%M:%S"
+
